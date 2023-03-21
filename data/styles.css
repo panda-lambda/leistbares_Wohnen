@@ -1,0 +1,134 @@
+#map {
+  height: 50vh;
+}
+
+
+#map2 {
+  height: 50vh;
+}
+.purple-bg {
+  background-color: #6a2452;
+}
+
+.reference,
+a:link,
+a:hover,
+a:active {
+  text-decoration: none;
+  color: lightgray;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.nobullets {
+  list-style: none;
+}
+.slidecontainer {
+  width: 40%;
+  /* Width of the outside container */
+}
+
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;
+  /* Override default CSS styles */
+  appearance: none;
+  width: 100%;
+  /* Full-width */
+  height: 25px;
+  /* Specified height */
+  background: #d3d3d3;
+  /* Grey background */
+  outline: none;
+  /* Remove outline */
+  opacity: 0.7;
+  /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: 0.2s;
+  /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+  border-radius: 0.25rem;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1;
+  /* Fully shown on mouse-over */
+}
+
+[type='radio'] {
+  display: none;
+}
+[type='radio'] ~ span {
+  padding: 8px 16px;
+  border: solid 1px #ca7383;
+  border-radius: 0.25rem;
+}
+[type='radio']:checked ~ span {
+  background: #ca7383;
+  color: white;
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  /* Override default look */
+  appearance: none;
+  width: 25px;
+  /* Set a specific slider handle width */
+  height: 25px;
+  /* Slider handle height */
+  background: rgba(3, 3, 3, 0.8);
+  /* Green background */
+  cursor: pointer;
+  /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  /* Set a specific slider handle width */
+  height: 25px;
+  /* Slider handle height */
+  background: rgba(3, 3, 3, 0.8);
+  /* Green background */
+  cursor: pointer;
+  /* Cursor on hover */
+}
+
+/*Legend specific*/
+.legend {
+  padding: 6px 8px;
+  font: 14px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(3, 3, 3, 0.8);
+  /*box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);*/
+  border-radius: 0.25rem;
+  line-height: 24px;
+  color: #999;
+}
+.legend h4 {
+  text-align: center;
+  font-size: 16px;
+  margin: 2px 12px 8px;
+  color: #999;
+}
+
+.legend span {
+  position: relative;
+  bottom: 3px;
+}
+
+.legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin: 0 8px 0 0;
+  opacity: 0.7;
+}
+
+.legend i.icon {
+  background-size: 18px;
+  background-color: rgba(255, 255, 255, 1);
+}

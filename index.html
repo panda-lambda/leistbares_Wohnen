@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""
+    />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+      crossorigin=""
+    ></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="./scripts/leaflet.ajax.min.js"></script>
+    <script src="./scripts/leaflet.snogylop.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body class="purple-bg text-light">
+    <section>
+      <div class ="container purple-bg">
+  
+<h1>Leistbares Wohnen in Wien</h1>
+<p class="lead pt-3">
+  Wien ist eine Stadt der Mietwohnungen: 77% aller Hauptwohnsitze in Wien werden in Mietverhältnissen bewohnt.  Dazu zählen Gemeindewohnungen, Genossenschaftswohnungen und private Mietwohnungen. Gemeinde- und Genossenschaftswohnungen werden gefördert und sind daher eine leistbare Alternative zum immer teurer werdenden privaten Wohnungsmarkt. Sie unterliegen jedoch Zugangsbeschränkungen: Gemeindewohnungen sind zum Beispiel nur für Menschen vorgesehen, die seit mindestens zwei Jahren seinen Hauptwohnsitz in Wien haben. Bei Genossenschaftswohnungen ist ein Eigenmittelanteil zu leisten. Dieser kann mehrere tausend Euro betragen</p>
+
+  
+<p class="lead pt-3">Zudem sinkt der Anteil an Gemeinde- und Genossenschaftswohnungen kontinuierlich. Im Jahr 2021 gab es in Wien 201.500 (28,7%) Gemeindewohnungen. Die Zahl der Genossenschaftswohnungen lag bei 196.300 (28%) und der private Wohnungsmarkt bei 302.100 (43,2%) Wohnungen<a href="#q1"><span class="reference"><sup>1</sup></span></a>. Damit bleibt insbesondere für Zuziehende und Personen ohne Ersparnisse nur der private Wohnungsmarkt. Dieser bietet aber gerade für Menschen mit geringem Einkommen aus Arbeit oder Sozialleistungen nur sehr wenige Wohnungen an.</p> 
+  <p class="lead pt-3">Denn: Der Quadratmeter Wohnfläche kostet bei Neuanmietung oft das Doppelte der Durchschnittsmiete in Wien, die bei ca. € 8,60 liegt<a href="#q1"><span class="reference"><sup>2</sup></span></a>. Allerdings stellen die Wohnkosten auch die Bewohner*innen von Gemeindewohnungen vor Herausforderungen. So ist der Anteil der Bewohner*innen von österreichischen Gemeindebauten, die die Wohnkosten als "schwere finanzielle Last" empfinden, von 27,9% im vierten Quartal 2021 auf 30,2% im zweiten Quartal 2022 angestiegen<a href="#q3"><span class="reference"><sup>3</sup></span></a>. Gleichzeitig ist bereits jede fünfte Person (21%) in Wien armutsgefährdet. Diese Personen müssen mit weniger als 60% des mittleren Einkommens (Median) auskommen <a href="#q4"><span class="reference"><sup>4</sup></span></a>. </p> 
+    <p class="lead pt-3">Wählen Sie in der Karte Ihr Nettohaushaltseinkommen, um den Anteil der leistbaren Wohnungen nach Wiener Zählbezirken zu sehen. Eine Wohnung gilt dann als leistbar, wenn weniger als 40 % des Haushaltsnettoeinkommens für die Wohnkosten aufgewendet werden müssen<a href="#q5"><span class="reference"><sup>5</sup></span></a>. Der eingestellte Wert bildet den Median des äqualivalisierten Nettohaushaltseinkommen aller Wiener Haushalt ab (25.345 geteilt durch 12)<a href="#q2"><span class="reference"><sup>6</sup></span></a>.  </p>
+
+</p>
+</div>
+    </section>
+    <main class ="container lead" >
+      <div  id="slider_map">
+        <div class="slidecontainer">
+          <input
+            type="range"
+            min="500"
+            max="8000"
+            value=""
+            class="slider"
+            id="myRange"
+          />
+          <p>
+            Netto-Haushaltseinkommen: <span id="demo"></span> € <br> Kaltmiete
+            (40%): <span id="miete"></span> €
+          </p>
+        </div>
+        <title>Map</title>
+        <div class="rounded border border-1 border-white" id="map"></div>
+        <p class="lead pt-3"></p>
+        <span style="text-decoration: underline">Datenquelle:</span> Die Daten wurden automatisiert von einem großen Immobilienportal abgefragt und sind auf die 250 Zählbezirke Wiens aufgeteilt. Insgesamt werden ca. 17.300 Einzelinserate abgebildet, die im Zeitraum Dezember 2022 bis Februar 2023 erhoben wurden. Um den privaten Wohnungsmarkt abzubilden, wurden alle Inserate mit Begriffen wie "Gemeindebau", "Gemeindewohnung" oder "Direktvergabe" entfernt. Die geografische Zuordnung zu den Zählbezirken erfolgte automatisiert. Fehler sind daher nicht auszuschließen <p>
+      </div>
+      
+    
+
+<section>
+  <h1 class=" pt-3">Wohnen fast nur für zwei</h1>
+  <p class="lead pt-3">Die analysierten Privatwohnungen machen noch ein weiteres Problem sichtbar: Überbelag. Eine Wohnung ist überbelegt, wenn z.B. zwei Personen in einem Zimmer oder drei Personen in zwei Zimmern wohnen<a href="#q6"><span class="reference"><sup>7</sup></span></a>. Der überwiegende Teil des Angebots besteht aus Zwei-Zimmer-Wohnungen und ist daher für Alleinstehende oder Familien mit (mehreren) Kindern nicht geeignet. Insbesondere für Einpersonenhaushalte, die in Wien 45,5% aller Haushalte ausmachen, stellt die Wohnungssuche daher eine Herausforderung dar. Wählen Sie in der Karte die Haushaltsgröße aus, um leistbare Angebote mit entsprechender Zimmerzahl zu sehen. Ebenso können Sie zwischen dem unteren Einkommensviertel (jährlich 18.046 €) und dem mittleren Einkommen (25.345 €) auswählen.  </p>
+    <p class="lead pt-3">Das Haushaltsnettoeinkommen ist das mittlere äquivalisierte Haushaltsnettoeinkommen. Der mittlere Wert (Median) wird gebildet, indem alle Werte in eine Rangfolge gebracht werden und dann genau die Mitte dieser Liste als mittlerer Wert genommen wird. Im Vergleich zum Durchschnitt oder auch zum Mittelwert wird der Median weniger stark durch besonders große oder besonders kleine Werte verzerrt. </p>
+
+  
+  <div id="households">Haushalt mit <span id="numofhouseholds"></span> Personen</div><div  id="slider_map2">
+    <div class="d-flex flex-row bd-highlight mb-3">
+  <div class="slidecontainer">
+    <input
+      type="range"
+      min="1"
+      max="5"
+      value="1"
+      class="slider"
+      id="myRange2"
+      step="1"
+    />
+    <div><label class="mt-1">
+      <input
+          type="radio"
+          name="difficulty"
+          value="easy"
+          onchange="setIncome(25)"
+          
+      />
+      <span>untere Einkommensviertel (25%)</span>
+  </label>
+
+  <label class="mt-3">
+      <input
+          type="radio"
+          name="difficulty"
+          value="medium"
+          checked
+          onchange="setIncome(50)"
+      />
+      <span>mittleres Einkommen (50%)</span>
+      
+  </label></div>
+  </div>
+    <div class="border rounded p-2 ms-4 ">
+    <p>
+      äquivalisiertes Netto-Haushaltseinkommen: <span id="demo2"></span> €</p> <p> Kaltmiete
+      (40%): <span id="miete2"></span> €<span id="roomnum"></span>
+    </p>
+  </div>
+  </div>
+  <title>Map</title>
+  <div class="rounded border border-1 border-white" id="map2"></div>
+  <span style="text-decoration: underline">Hinweis zur Berechnung:</span> Für die Berechnung des Einkommens wurde das äquivalisierte Nettohaushaltseinkommen (25.345 €) herangezogen. Die verschiedenen Haushaltsgrößen wurden aufgrund der Statistik<a href="#q1"><span class="reference"><sup>8</sup></span></a> geschätzt. Somit ergibt sich für einen Einpersonenhaushalt ein monatliches Einkommen von 2112,08 € äquivalisiertem Nettohaushaltseinkommen angenommen (entspricht dem Faktor 1). Für zwei Personen wurde der Faktor 1,5 (2 Erwachsene), für drei Personen der Faktor 1,8 (zwei Erwachsene und 1 Kind), für vier Personen der Faktor 2,1 (zwei Erwachsene und zwei Kinder) und für fünf Personen der Faktor 2.4 (zwei Erwachsene und drei Kinder). Weitere Informationen zum äquivalisierten Einkommen finden Sie bei der  <a style="color: #FFC300 " href="https://www.statistik.at/statistiken/bevoelkerung-und-soziales/einkommen-und-soziale-lage/haushaltseinkommen">Statistik Austria</a>. <p>
+  
+</div></section>
+
+<section>
+  <h1>Quellen</h1>
+  <ul class="nobullets">
+    <li id="q1">1,2,8] <a class="reference" href="https://www.statistik.at/statistiken/bevoelkerung-und-soziales/wohnen/wohnsituation"> https://www.statistik.at/statistiken/bevoelkerung-und-soziales/wohnen/wohnsituation -weiterführende Tabellen- Tabelle 1_22</a></li>
+    
+    <li id="q2">3,6] <a class="reference" href="https://www.statistik.at/fileadmin/pages/338/Tabellenband_EUSILC_2021.pdf">https://www.statistik.at/fileadmin/pages/338/Tabellenband_EUSILC_2021.pdf  Tabelle 5.3a</a></li>
+
+    <li id="q4">4]<a class="reference" href="https://www.statistik.at/fileadmin/publications/Bericht-Soziale-Krisenfolgen2022.pdf"> https://www.statistik.at/fileadmin/publications/Bericht-Soziale-Krisenfolgen2022.pdf</a></li>
+    <li id="q5">5]<a class="reference" href="https://www.parlament.gv.at/aktuelles/pk/jahr_2022/pk0045"> https://www.parlament.gv.at/aktuelles/pk/jahr_2022/pk0045</a></li>
+    <li id="q6">7]<a class="reference" href="https://wohnberatung-wien.at/footer/glossar"> https://wohnberatung-wien.at/footer/glossar</a></li>
+  </ul>
+</section>
+    </main>
+    <script src="./scripts/income_mapping.js"></script>
+    <script src="./scripts/room_mapping.js"></script>
+    
+  </body>
+</html
