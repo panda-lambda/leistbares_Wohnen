@@ -1,6 +1,6 @@
 ## Affordable Rents in Vienna
 This interactive website was created by Benjamin Storck within the course "Data Ethics & Open Data" (lecturer Lukas Rohatsch,MSc)  in winter semester 22/23 at the UAS (FH Technikum Wien).
-Note: The website was never published, since the online rental housing platform did not agree the publication. 
+Note: The website was never published, since the online rental housing platform did not agree/answer to the publication of the data. 
 Therefore, the URL was removed from `scraping.py`.
 
 ## Instruction
